@@ -58,3 +58,11 @@ d3.csv('TransportationFatalities_ByYear.csv', function (csv) {
   chart1(chart1Data);
   chart2(chart2Data);
 });
+
+//Draw chart 1 and chart 2
+//Display data for chart 1 and chart 2
+//Link data from chart 1 and chart 2
+//Create filter (year)
+//Chart legend
+
+//add a 3rd chart if necessary
