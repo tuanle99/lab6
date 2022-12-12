@@ -61,7 +61,7 @@ function drawChart1(width, height) {
     .attr('font-size', '12px')
     .text('Year');
 
-  var popLabel = d3
+  var totalLabel = d3
     .select('#svg1')
     .append('text')
     .attr('x', -width / 2)
