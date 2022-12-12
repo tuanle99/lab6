@@ -70,4 +70,21 @@ function drawChart2(width, height) {
     .attr('text-anchor', 'end')
     .attr('transform', 'rotate(-90)')
     .text('Total Per 100K');
+
+  let chart2ox = 50;
+  let chart2oy = 470;
+  let chart2incx = 9.35;
+  let chart2incy = -34;
+
+  for (let i = 0; i < data2.length; i++) {
+    console.log(data2[i].Year);
+    chart2
+      .append('circle')
+      .attr('r', '4px')
+      .attr('name', data2[i].Year)
+      .style('fill', 'black')
+      .style('stroke', 'black')
+      .attr('cx', chart2ox + (data2[i].Year - 1975) * chart2incx)
+      .attr('cy', chart2oy + (data2[i].Total_Per_100K - 10) * chart2incy);
+  }
 }

@@ -70,4 +70,21 @@ function drawChart1(width, height) {
     .attr('text-anchor', 'end')
     .attr('transform', 'rotate(-90)')
     .text('Total by 1K');
+
+  let chart1ox = 50;
+  let chart1oy = 470;
+  let chart1incx = 9.35;
+  let chart1incy = -21.6;
+
+  for (let i = 0; i < data1.length; i++) {
+    console.log(data1[i].Year);
+    chart1
+      .append('circle')
+      .attr('r', '4px')
+      .attr('name', data1[i].Year)
+      .style('fill', 'black')
+      .style('stroke', 'black')
+      .attr('cx', chart1ox + (data1[i].Year - 1975) * chart1incx)
+      .attr('cy', chart1oy + (data1[i].Total / 1000 - 32) * chart1incy);
+  }
 }
