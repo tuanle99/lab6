@@ -1,8 +1,11 @@
 chart1Data = [];
 chart2Data = [];
 
+var width = 500;
+var height = 500;
+
 d3.csv('TransportationFatalities_ByYear.csv', function (csv) {
-  console.log(csv);
+  // console.log(csv);
   for (var i = 0; i < csv.length; i++) {
     //Year
     csv[i].Year = Number(csv[i].Year);
@@ -55,8 +58,11 @@ d3.csv('TransportationFatalities_ByYear.csv', function (csv) {
     chart2Data.push({ ...general_obj, ...chart2_obj });
   }
 
-  chart1(chart1Data);
-  chart2(chart2Data);
+  chart1SetData(chart1Data);
+  chart2SetData(chart2Data);
+
+  drawChart1(width, height);
+  drawChart2(width, height);
 });
 
 //Draw chart 1 and chart 2
