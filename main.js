@@ -4,11 +4,77 @@ chart2Data = [];
 var width = 500;
 var height = 500;
 
+filter_initial_year = 0;
+filter_end_year = 0;
+
 d3.csv('TransportationFatalities_ByYear.csv', function (csv) {
-  // console.log(csv);
+  filter_initial_year = Number(csv[0].Year);
+  filter_end_year = Number(csv[csv.length - 1].Year);
+
+  for (let i = filter_initial_year; i < filter_end_year + 1; i++) {
+    d3.select('#Initial_categorySelect')
+      .append('option')
+      .attr('value', i)
+      .text(i);
+    d3.select('#End_categorySelect').append('option').attr('value', i).text(i);
+  }
+
+  setData(csv, 1975, 2020);
+
+  drawChart1(width, height);
+  drawChart2(width, height);
+
+  d3.select('#filter')
+    .append('p')
+    .append('button')
+    .style('border', '1px solid black')
+    .text('Filter Data')
+    .on('click', function () {
+      filter_initial_year = onInitialCategoryChanged();
+      filter_end_year = onEndCategoryChanged();
+
+      setData(csv, filter_initial_year, filter_end_year);
+
+      d3.select('#chart1').selectAll('*').remove();
+      d3.select('#chart2').selectAll('*').remove();
+
+      drawChart1(width, height);
+      drawChart2(width, height);
+    });
+});
+
+function onInitialCategoryChanged() {
+  var select = d3.select('#Initial_categorySelect').node();
+  // Get current value of select element
+  var category = select.options[select.selectedIndex].value;
+  // Update chart with the selected category of cereals
+  //updateChart(category);
+  return category;
+}
+
+function onEndCategoryChanged() {
+  var select = d3.select('#End_categorySelect').node();
+  // Get current value of select element
+  var category = select.options[select.selectedIndex].value;
+  // Update chart with the selected category of cereals
+  //updateChart(category);
+  return category;
+}
+
+function setData(csv, init, end) {
+  if (end < init) {
+    init = 1975;
+    end = 2020;
+  }
+  chart1Data = [];
+  chart2Data = [];
+
+  let unfiltered_chart1Data = [];
+  let unfiltered_chart2Data = [];
+
   for (var i = 0; i < csv.length; i++) {
     //Year
-    csv[i].Year = Number(csv[i].Year);
+    csv[i].Year = csv[i].Year;
     //Population
     csv[i].Population = Number(csv[i].Population);
     //Car_Occupant
@@ -53,22 +119,15 @@ d3.csv('TransportationFatalities_ByYear.csv', function (csv) {
       Trucks_Per_100K: csv[i].Trucks_Per_100K,
       Total_Per_100K: csv[i].Total_Per_100K,
     };
+    if (Number(csv[i].Year) >= init && Number(csv[i].Year) <= end) {
+      chart1Data.push({ ...general_obj, ...chart1_obj });
+      chart2Data.push({ ...general_obj, ...chart2_obj });
+    }
 
-    chart1Data.push({ ...general_obj, ...chart1_obj });
-    chart2Data.push({ ...general_obj, ...chart2_obj });
+    unfiltered_chart1Data.push({ ...general_obj, ...chart1_obj });
+    unfiltered_chart2Data.push({ ...general_obj, ...chart2_obj });
   }
 
-  chart1SetData(chart1Data);
-  chart2SetData(chart2Data);
-
-  drawChart1(width, height);
-  drawChart2(width, height);
-});
-
-//Draw chart 1 and chart 2
-//Display data for chart 1 and chart 2
-//Link data from chart 1 and chart 2
-//Create filter (year)
-//Chart legend
-
-//add a 3rd chart if necessary
+  chart1SetData(chart1Data, unfiltered_chart1Data);
+  chart2SetData(chart2Data, unfiltered_chart2Data);
+}

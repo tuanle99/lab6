@@ -16,10 +16,24 @@
     <div id="wrapper">
       <div id="chart1"></div>
       <div id="chart2"></div>
-      <div id="chart3">
+      <div id="filter">
+        <select
+            class="custom-select"
+            id="Initial_categorySelect"
+            onchange="onInitialCategoryChanged()"
+          >
+          </select>
+          <select
+            class="custom-select"
+            id="End_categorySelect"
+            onchange="onEndCategoryChanged()"
+          >
+          </select>
+      </div>
+      <!-- <div id="chart3">
         
         <p></p>
-      </div>
+      </div> -->
     </div>
   </body>
 </html>

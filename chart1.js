@@ -1,14 +1,16 @@
 var data1 = [];
+var unfiltered_chart1Data = [];
 
-function chart1SetData(d) {
+function chart1SetData(d, u) {
   data1 = d;
+  unfiltered_chart1Data = u;
 }
 
-function drawChart1(width, height) {
-  var yearExtent = d3.extent(data1, function (row) {
+function drawChart1(width, height, yearExtent, populationExtent) {
+  var yearExtent = d3.extent(unfiltered_chart1Data, function (row) {
     return row.Year;
   });
-  var populationExtent = d3.extent(data1, function (row) {
+  var populationExtent = d3.extent(unfiltered_chart1Data, function (row) {
     return row.Total / 1000;
   });
 
@@ -77,7 +79,6 @@ function drawChart1(width, height) {
   let chart1incy = -21.6;
 
   for (let i = 0; i < data1.length; i++) {
-    console.log(data1[i].Year);
     chart1
       .append('circle')
       .attr('r', '4px')
